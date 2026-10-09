@@ -94,7 +94,8 @@ class Loop:
         spent = time.perf_counter() - now
         self.frame_ms = self.frame_ms * 0.9 + spent * 100.0 if self.frame_ms else spent * 1000
         if self.running:
-            self._schedule(int(1000.0 / self.fps - spent * 1000))
+            # Au moins 4 ms de répit : la boucle Tk peut traiter saisies et redessins
+            self._schedule(max(4, int(1000.0 / self.fps - spent * 1000)))
 
 
 class StudioModule:

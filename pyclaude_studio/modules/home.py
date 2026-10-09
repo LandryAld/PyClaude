@@ -9,6 +9,7 @@ from typing import List, Tuple
 
 from ..core.colors import mix
 from ..core.module import StudioModule
+from ..engines.fractal import numpy_available
 from ..ui.widgets import themed_canvas
 
 TIPS = [
@@ -122,11 +123,7 @@ class HomeModule(StudioModule):
         c.create_text(pad, y, text="Bienvenue dans PyClaude Studio", anchor="nw", fill=t.fg,
                       font="StudioDisplay")
         specs = [s for s in self.app.registry.ordered() if s.id != self.id]
-        try:
-            import numpy  # noqa: F401
-            np_text = "numpy détecté"
-        except Exception:
-            np_text = "Python pur (numpy absent)"
+        np_text = "numpy détecté" if numpy_available() else "Python pur (numpy absent)"
         n = len(specs)
         sub = (f"{n} module{'s' if n > 1 else ''} · {len(self.app.commands.all())} commandes · "
                f"thème « {t.name} » · {np_text}")

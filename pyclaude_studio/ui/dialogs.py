@@ -2,9 +2,8 @@
 
 from __future__ import annotations
 
-import platform
 import tkinter as tk
-from tkinter import colorchooser, messagebox, ttk
+from tkinter import messagebox, ttk
 from typing import TYPE_CHECKING
 
 from .. import APP_NAME, __version__

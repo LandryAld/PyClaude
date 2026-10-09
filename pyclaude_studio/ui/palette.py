@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import time
 import tkinter as tk
-from tkinter import ttk
 from typing import TYPE_CHECKING, List, Optional, Tuple
 
 from ..core import fuzzy

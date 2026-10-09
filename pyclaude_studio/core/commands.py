@@ -62,7 +62,7 @@ class Command:
     id: str
     title: str
     callback: Callable[[], Any]
-    category: str = "Général"
+    category: str = ""
     shortcut: Optional[str] = None
     when: Optional[Callable[[], bool]] = None
     icon: str = ""

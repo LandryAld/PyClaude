@@ -56,7 +56,7 @@ _OPERATORS = sorted(
      "<", ">", "=", ":", "&", "×", "÷", "·", "−"],
     key=len, reverse=True)
 _OP_ALIASES = {"**": "^", "×": "*", "÷": "/", "·": "*", "−": "-", "<>": "!=", "==": "="}
-_GREEK = {"π": "pi", "τ": "tau", "φ": "phi"}
+_GREEK = {"π": "pi", "τ": "tau", "φ": "phi", "θ": "t"}
 
 
 def tokenize(text: str, *, implicit_mul: bool = False,
@@ -155,41 +155,44 @@ class Node:
     def __str__(self) -> str:
         return to_string(self)
 
+    def __repr__(self) -> str:
+        return f"<{type(self).__name__} {to_string(self)}>"
 
-@dataclass(frozen=True)
+
+@dataclass(frozen=True, repr=False)
 class Num(Node):
     value: float
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, repr=False)
 class Str(Node):
     value: str
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, repr=False)
 class Var(Node):
     name: str
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, repr=False)
 class Neg(Node):
     arg: Node
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, repr=False)
 class Bin(Node):
     op: str
     left: Node
     right: Node
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, repr=False)
 class Call(Node):
     name: str
     args: Tuple[Node, ...]
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, repr=False)
 class Range(Node):
     start: str
     end: str

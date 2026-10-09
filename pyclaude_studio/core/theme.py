@@ -363,14 +363,14 @@ class ThemeManager:
         for name, bg in (("Ghost.TButton", t.surface), ("Header.TButton", t.bg),
                          ("Sidebar.TButton", t.sidebar), ("Card.TButton", t.surface2)):
             s.configure(name, background=bg, foreground=t.fg2, bordercolor=bg,
-                        lightcolor=bg, darkcolor=bg, padding=(8, 4))
+                        lightcolor=bg, darkcolor=bg, padding=(8, 4), width=0)
             s.map(name, background=[("pressed", t.pressed), ("active", t.hover)],
                   foreground=[("active", t.fg)],
                   bordercolor=[("active", t.hover)], lightcolor=[("active", t.hover)],
                   darkcolor=[("active", t.hover)])
         s.configure("Icon.TButton", background=t.surface, foreground=t.fg2,
                     bordercolor=t.surface, lightcolor=t.surface, darkcolor=t.surface,
-                    padding=(6, 2), font="StudioIcon")
+                    padding=(6, 2), font="StudioIcon", width=0)
         s.map("Icon.TButton", background=[("active", t.hover)], foreground=[("active", t.fg)],
               bordercolor=[("active", t.hover)], lightcolor=[("active", t.hover)],
               darkcolor=[("active", t.hover)])

@@ -136,7 +136,8 @@ class TabBar(tk.Canvas):
                 label = label[:-2]
             if label != title:
                 label = label.rstrip() + "…"
-            self.create_text(x0 + self.PAD + 22, (y0 + y1) / 2, text=label, anchor="w",
+            icon_w = max(22, tkfont.nametofont("StudioIcon").measure(icon) + 8)
+            self.create_text(x0 + self.PAD + icon_w, (y0 + y1) / 2, text=label, anchor="w",
                              fill=fg, font="StudioBody")
             if active or hovered:
                 cx, cy = x1 - self.PAD + 2, (y0 + y1) / 2

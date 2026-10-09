@@ -18,6 +18,11 @@ def themed_canvas(parent: tk.Misc, role: str = "canvas", **kw: Any) -> tk.Canvas
     """Canevas sans bordure, recoloré automatiquement selon son rôle au changement de thème."""
     kw.setdefault("highlightthickness", 0)
     kw.setdefault("borderwidth", 0)
+    if "background" not in kw and "bg" not in kw:
+        t = theme_of(parent)
+        if t is not None:
+            kw["background"] = {"canvas": t.canvas, "surface2": t.surface2, "bg": t.bg,
+                                "sidebar": t.sidebar}.get(role, t.surface)
     c = tk.Canvas(parent, **kw)
     c._studio_role = role  # type: ignore[attr-defined]
     return c
@@ -25,10 +30,8 @@ def themed_canvas(parent: tk.Misc, role: str = "canvas", **kw: Any) -> tk.Canvas
 
 def theme_of(widget: tk.Misc):
     """Retrouve le thème courant via l'application attachée à la racine."""
-    app = getattr(widget.winfo_toplevel(), "_studio_app", None)
-    if app is None:
-        root = widget._root()  # type: ignore[attr-defined]
-        app = getattr(root, "_studio_app", None)
+    root = widget._root()  # type: ignore[attr-defined]
+    app = getattr(root, "_studio_app", None)
     return app.theme if app is not None else None
 
 
@@ -553,3 +556,55 @@ class FPSCounter:
         if len(self.times) < 2:
             return 0.0
         return (len(self.times) - 1) / (self.times[-1] - self.times[0])
+
+
+def side_layout(parent: tk.Misc, width: int = 300, title: str = "", subtitle: str = ""
+                ) -> Tuple[ttk.Frame, ttk.Frame]:
+    """Zone principale à gauche + panneau de contrôle défilant à droite.
+
+    Renvoie ``(zone_principale, panneau)``.
+    """
+    side_wrap = ttk.Frame(parent, style="Panel.TFrame")
+    side_wrap.pack(side="right", fill="y")
+    sep = ttk.Separator(parent, orient="vertical")
+    sep.pack(side="right", fill="y")
+    scroll = ScrollFrame(side_wrap)
+    scroll.canvas.configure(width=width)
+    scroll.pack(fill="both", expand=True)
+    panel = scroll.inner
+    if title:
+        head = ttk.Frame(panel, style="Panel.TFrame")
+        head.pack(fill="x", padx=12, pady=(14, 0))
+        ttk.Label(head, text=title, style="Title.TLabel").pack(anchor="w")
+        if subtitle:
+            ttk.Label(head, text=subtitle, style="Muted.TLabel", wraplength=width - 30,
+                      justify="left").pack(anchor="w", pady=(2, 0))
+    main = ttk.Frame(parent, style="Module.TFrame")
+    main.pack(side="left", fill="both", expand=True)
+    return main, panel
+
+
+def combo(parent: tk.Misc, values: Sequence[str], value: str,
+          command: Optional[Callable[[str], Any]] = None, width: int = 24) -> ttk.Combobox:
+    var = tk.StringVar(value=value)
+    cb = ttk.Combobox(parent, textvariable=var, values=list(values), state="readonly",
+                      width=width)
+    cb.var = var  # type: ignore[attr-defined]
+    if command:
+        cb.bind("<<ComboboxSelected>>", lambda e: command(var.get()))
+    return cb
+
+
+def check(parent: tk.Misc, text: str, value: bool, command: Optional[Callable[[bool], Any]] = None
+          ) -> tk.BooleanVar:
+    var = tk.BooleanVar(value=value)
+    ttk.Checkbutton(parent, text=text, variable=var,
+                    command=(lambda: command(var.get())) if command else None).pack(
+        anchor="w", pady=2)
+    return var
+
+
+def info_label(parent: tk.Misc, text: str = "", style: str = "Mono.TLabel") -> ttk.Label:
+    lbl = ttk.Label(parent, text=text, style=style, justify="left")
+    lbl.pack(anchor="w", fill="x", pady=2)
+    return lbl

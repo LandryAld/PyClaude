@@ -18,7 +18,7 @@ import os
 import threading
 from concurrent.futures import FIRST_COMPLETED, Future, ProcessPoolExecutor, wait
 from dataclasses import dataclass, replace
-from typing import Callable, Dict, List, Optional, Sequence, Tuple
+from typing import Callable, Dict, List, Optional, Tuple
 
 from ..core.colors import RGB, colormap_lut, hex_to_rgb, mix
 
@@ -250,11 +250,9 @@ def _chunk_job(args: Tuple[FractalParams, int, int, int, int]) -> Tuple[int, byt
 # ---------------------------------------------------------------------------
 
 def numpy_available() -> bool:
-    try:
-        import numpy  # noqa: F401
-        return True
-    except Exception:
-        return False
+    import importlib.util
+
+    return importlib.util.find_spec("numpy") is not None
 
 
 def render_rows_numpy(p: FractalParams, width: int, height: int, y0: int, y1: int) -> bytes:

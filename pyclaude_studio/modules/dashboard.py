@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import threading
 import time
-import tkinter as tk
 from tkinter import ttk
 from typing import Optional
 

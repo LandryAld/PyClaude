@@ -7,7 +7,6 @@ import contextlib
 import io
 import logging
 import queue
-import sys
 import time
 import tkinter as tk
 from tkinter import ttk

@@ -6,7 +6,7 @@ import math
 import time
 import tkinter as tk
 from tkinter import ttk
-from typing import TYPE_CHECKING, Callable, Dict, List, Optional, Tuple
+from typing import TYPE_CHECKING, Dict, List, Optional, Tuple
 
 from ..core import fuzzy
 from ..core.colors import mix
@@ -15,7 +15,6 @@ from .widgets import ToolTip, theme_of, themed_canvas
 
 if TYPE_CHECKING:  # pragma: no cover
     from ..app import StudioApp
-    from ..core.module import ModuleSpec
 
 
 class Sidebar(ttk.Frame):

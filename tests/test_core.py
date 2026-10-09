@@ -1,7 +1,6 @@
 """Tests du noyau : expressions, analyse numérique, images, recherche floue, bus, réglages."""
 
 import math
-import os
 import tempfile
 import threading
 import unittest

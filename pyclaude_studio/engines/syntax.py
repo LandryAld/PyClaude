@@ -67,11 +67,12 @@ class OutlineItem:
     signature: str = ""
 
 
-def outline(source: str) -> List[OutlineItem]:
+def outline(source: str) -> Optional[List[OutlineItem]]:
+    """Plan du code (classes et fonctions) ; ``None`` si le code ne s'analyse pas."""
     try:
         tree = ast.parse(source)
-    except SyntaxError:
-        return []
+    except (SyntaxError, ValueError):
+        return None
     items: List[OutlineItem] = []
 
     def visit(node: ast.AST, depth: int) -> None:

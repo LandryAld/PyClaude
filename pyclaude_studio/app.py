@@ -14,7 +14,7 @@ from typing import Any, Callable, Dict, List, Optional
 
 from . import APP_NAME, __version__
 from .core import expr, numeric
-from .core.commands import Command, CommandRegistry
+from .core.commands import CommandRegistry
 from .core.eventbus import EventBus
 from .core.module import ModuleRegistry, StudioModule
 from .core.settings import Settings, config_dir

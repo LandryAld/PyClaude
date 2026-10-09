@@ -29,9 +29,12 @@ def main(argv=None) -> int:
 
     logging.basicConfig(level=logging.DEBUG if args.verbose else logging.WARNING,
                         format="%(levelname)s %(name)s: %(message)s")
-    try:
-        import tkinter  # noqa: F401
-    except ImportError:
+    # Le journal détaillé va dans le panneau « Journal » ; stderr reste sobre.
+    for handler in logging.getLogger().handlers:
+        handler.setLevel(logging.DEBUG if args.verbose else logging.WARNING)
+    import importlib.util
+
+    if importlib.util.find_spec("tkinter") is None:
         print("Tkinter est introuvable. Sous Debian/Ubuntu : sudo apt install python3-tk",
               file=sys.stderr)
         return 2
